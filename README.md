@@ -1,19 +1,32 @@
 # railsリハビリ
 
-### 操作
+# 操作
 - `rails g migration CreateXXX`：マイグレーションファイル作成
 - `bundle exec rails db:migrate`：マイグレーション実施
+- `bundle exec rails db:seed`：テストデータ作成
+- `rails console`
 
-### モデル作成
+# モデル作成
 - 外部キーの参照元（xxx_idのxxx）モデルではhas_manyなどの関連付けを行う
   - 外部キーを持っている場合、対象テーブルに対して：`belongs_to`
     - 例）仮予約（line_food）テーブルはfood, restaurant, orderについての外部キーを持っているため全てに`belongs_to`
   - 1対nの表現：`has_many`
-  - 1対1の表現：`has_one`（has_oneがつけられたモデルでは対象をbelongs_toで宣言する）
-    - has_oneとbelongs_toはセット
+  - 1対1の表現：`has_one`（has_one, has_manyがつけられたモデルでは対象をbelongs_toで宣言する）
+    - has_one（has_many）とbelongs_toはセット
     
-### クラスメソッドとインスタンスメソッドの使い分け
+# クラスメソッドとインスタンスメソッドの使い分け
 - データすべて(モデルそのもの)に対する操作はクラスメソッド。
 - 特定のデータ（インスタンス）に対する操作はインスタンスメソッド。
 
+# シェル
+- 出力されたrouts一覧から、'order'が含まれる一行のみを出力する
+- `$ rails routes | grep order`
+
+# 通常メソッドと破壊的メソッドの違い
+- 通常メソッド：`save`, `update`など
+  - 通常メソッドで失敗するとfalseが返却される
+- 破壊的メソッド：`!save`, `update!`など
+  - 破壊的メソッドが失敗すると例外を返す
+  
+### 失敗した際に例外を拾いたいときは`破壊的メソッド`を使う
     
