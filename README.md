@@ -30,4 +30,25 @@
   - 破壊的メソッドが失敗すると例外を返す
   
 ### 失敗した際に例外を拾いたいときは`破壊的メソッド`を使う
+
+# トランザクション
+- トランザクションは以下のように組み、メソッドは破壊的メソッドを使うこと
+
+```ruby
+
+def save_with_update_line_foods!(line_foods)
+    ActiveRecord::Base.transaction do # 失敗したらロールバックさせたいのでtransactionにしている。かつ、処理では破壊的メソッドを使う
+      line_foods.each do |line_food|
+        line_food.update_attributes!(active: false, order: self)
+      end
+      self.save!
+    end
+end
+
+```
     
+# RSpec
+- テスト記述ルールとしては、テストする内容を説明する文章を引数として、describe, context, it を使って記述する。
+  - jestとほぼ同じ
+- modelテスト用のファイルspec/models/test_spec.rbを作成する場合
+  - `bin/rails g rspec:model test`
