@@ -1,10 +1,16 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useReducer, useEffect } from 'react';
 import styled from "styled-components";
 import { fetchRestaurants } from '../apis/restaurants';
 
 // images
 import MainLogo from '../images/logo.png';
 import MainCoverImage from '../images/main-cover-image.png';
+
+import {
+    initialState,
+    restaurantsActionTyps,
+    restaurantsReducer,
+} from '../reducers/restaurants';
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -26,8 +32,19 @@ const MainCover = styled.img`
 
 export const Restaurants = () => {
 
+    // reducerを定義
+    const [state, dispatch] = useReducer(restaurantsReducer, initialState)
+
     useEffect(() => {
-        fetchRestaurants().then(r => console.log(r))
+        dispatch({ type: restaurantsActionTyps.FETCHING });
+        fetchRestaurants().then((data) => {
+            dispatch({
+                type: restaurantsActionTyps.FETCH_SUCCESS,
+                payload: {
+                    restaurants: data.restaurants
+                }
+            })
+        })
     }, [])
     return (
         <Fragment>
@@ -36,6 +53,13 @@ export const Restaurants = () => {
             </HeaderWrapper>
             <MainCoverImageWrapper>
                 <MainCover src={MainCoverImage} alt="main cover" />
+                {
+                    state.restaurantsList.map(restaurant =>
+                        <div>
+                            {restaurant.name}
+                        </div>
+                    )
+                }
             </MainCoverImageWrapper>
         </Fragment>
     )
