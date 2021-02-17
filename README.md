@@ -13,6 +13,7 @@
   - 1対nの表現：`has_many`
   - 1対1の表現：`has_one`（has_one, has_manyがつけられたモデルでは対象をbelongs_toで宣言する）
     - has_one（has_many）とbelongs_toはセット
+  - `scope`：返り値はActiveRecord_Relationを返すようにするべき
     
 # クラスメソッドとインスタンスメソッドの使い分け
 - データすべて(モデルそのもの)に対する操作はクラスメソッド。
