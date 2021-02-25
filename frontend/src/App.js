@@ -18,7 +18,7 @@ function App() {
           // 店舗一覧ページ
           <Route
               exact
-              path="/restaurants">
+              path="/">
             <Restaurants />
           </Route>
           // フード一覧ページ
